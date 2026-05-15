@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Space for Jeje ✨</title>
+    <style>
+        :root {
+            --bg-color: #fcf8f2;
+            --primary-color: #ffb3ba;
+            --text-color: #5c4d4d;
+            --card-bg: #ffffff;
+            --accent-color: #ff8b94;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 450px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 179, 186, 0.3);
+            text-align: center;
+            box-sizing: border-box;
+            animation: fadeIn 1.5s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            font-size: 0.95rem;
+            color: #8c7a7a;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .backstory {
+            font-style: italic;
+            font-size: 0.9rem;
+            background: #fff5f5;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .message-box {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff0f1;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            border: 1px dashed var(--primary-color);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 139, 148, 0.2);
+        }
+
+        button:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .btn-secondary {
+            background-color: #e2dbdb;
+            color: #706262;
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d1c7c7;
+        }
+
+        /* Heart Animation */
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: var(--accent-color);
+            animation: floatUp 2.5s linear forwards;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.3) translateX(100px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Hai Jeje Kesayangan Ku! ❤️</h1>
+        <p class="subtitle">Aku tahu belakangan ini Jeje lagi banyak pikiran, capek, dan stres banget. Website kecil ini sengaja aku bikin khusus buat nemenin Jeje pas lagi pusing kerja atau beraktivitas.</p>
+        
+        <div class="backstory">
+            "In case no one told you today: Jeje keren banget, sudah bertahan dan berusaha sejauh ini. Jangan lupa napas dalam-dalam ya? ✨"
+        </div>
+
+        <div class="message-box" id="boosterMessage">
+            Klik tombol di bawah buat ambil "surat semangat" gratis kamu hari ini, Je! 👇
+        </div>
+
+        <div class="btn-group">
+            <button onclick="getNewMessage()">Klik Kalau Lagi Stres 🌸</button>
+            <button class="btn-secondary" onclick="createHearts()">Butuh Pelukan Virtual 🫂</button>
+        </div>
+    </div>
+
+    <script>
+        // Daftar pesan random yang ditujukan untuk Jeje
+        const messages = [
+            "Nggak apa-apa kalau hari ini capek, besok kita coba lagi pelan-pelan ya Je. Kamu ga sendirian kok, ada aku di sini. 🧸",
+            "Kurangin dulu kerutan di jidatnya Je, nanti cantiknya ilang! Yuk, tarik napas dalam-dalam... hembuskan... 💨",
+            "Apapun yang lagi Jeje khawatirin sekarang, *everything is going to be alright*. I believe in you, selalu! ⭐",
+            "Hari ini Jeje udah hebat banget bisa ngelewatin semuanya. Proud of you, kesayangan ku! 🤍",
+            "Jangan lupa minum air putih ya Je, istirahat dulu gais kerjanya. Tubuh kamu butuh rehat. 🥤",
+            "Kalau dunia lagi ga ramah sama Jeje, inget ya, di sini ada aku yang selalu bangga dan sayang banget sama kamu. 🥰",
+            "Pekerjaan atau masalah itu ga ada habisnya Je, tapi energi kamu ada batasnya. Yuk, tidur atau istirahat yang cukup! 🛌",
+            "Jeje itu berharga banget, jangan sampai tekanan hari ini bikin kamu lupa seberapa hebatnya diri kamu selama ini. ✨"
+        ];
+
+        function getNewMessage() {
+            const msgBox = document.getElementById('boosterMessage');
+            
+            msgBox.style.opacity = 0;
+            
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * messages.length);
+                msgBox.innerText = messages[randomIndex];
+                msgBox.style.opacity = 1;
+            }, 200);
+
+            for(let i = 0; i < 3; i++) {
+                setTimeout(spawnHeart, i * 150);
+            }
+        }
+
+        function spawnHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = '❤️';
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            
+            const duration = Math.random() * 1.5 + 1.5;
+            heart.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(spawnHeart, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>
