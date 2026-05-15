@@ -11,6 +11,8 @@
             --text-color: #5c4d4d;
             --card-bg: #ffffff;
             --accent-color: #ff8b94;
+            --music-color: #baffc9;
+            --music-text: #3d6a47;
         }
 
         body {
@@ -59,7 +61,7 @@
             background: #fff5f5;
             padding: 12px;
             border-radius: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border-left: 4px solid var(--primary-color);
         }
 
@@ -116,6 +118,23 @@
             background-color: #d1c7c7;
         }
 
+        .btn-music {
+            background-color: var(--music-color);
+            color: var(--music-text);
+            font-size: 0.85rem;
+            padding: 8px 15px;
+            box-shadow: none;
+            margin-bottom: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-music:hover {
+            background-color: #a3ebb4;
+        }
+
         /* Heart Animation */
         .heart {
             position: absolute;
@@ -152,7 +171,13 @@
 </head>
 <body>
 
+    <!-- Audio Element (lagu.mp3 harus ditaruh di folder yang sama) -->
+    <audio id="bgMusic" src="lagu.mp3" loop></audio>
+
     <div class="container">
+        <!-- Tombol kontrol musik -->
+        <button id="musicBtn" class="btn-music" onclick="toggleMusic()">Putar Musik 🎵</button>
+
         <h1>Hai Jeje Kesayangan Ku! ❤️</h1>
         <p class="subtitle">Aku tahu belakangan ini Jeje lagi banyak pikiran, capek, dan stres banget. Website kecil ini sengaja aku bikin khusus buat nemenin Jeje pas lagi pusing kerja atau beraktivitas.</p>
         
@@ -171,11 +196,10 @@
     </div>
 
     <script>
-        // Daftar pesan random yang ditujukan untuk Jeje
         const messages = [
             "Nggak apa-apa kalau hari ini capek, besok kita coba lagi pelan-pelan ya Je. Kamu ga sendirian kok, ada aku di sini. 🧸",
             "Kurangin dulu kerutan di jidatnya Je, nanti cantiknya ilang! Yuk, tarik napas dalam-dalam... hembuskan... 💨",
-            "Apapun yang lagi Jeje khawatirin sekarang, *everything is going to be alright*. I believe in you, selalu! ⭐",
+            "Apapun yang lagi Jeje khawatirin sekarang, everything is going to be alright. I believe in you, selalu! ⭐",
             "Hari ini Jeje udah hebat banget bisa ngelewatin semuanya. Proud of you, kesayangan ku! 🤍",
             "Jangan lupa minum air putih ya Je, istirahat dulu gais kerjanya. Tubuh kamu butuh rehat. 🥤",
             "Kalau dunia lagi ga ramah sama Jeje, inget ya, di sini ada aku yang selalu bangga dan sayang banget sama kamu. 🥰",
@@ -183,9 +207,35 @@
             "Jeje itu berharga banget, jangan sampai tekanan hari ini bikin kamu lupa seberapa hebatnya diri kamu selama ini. ✨"
         ];
 
+        const audio = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        let isPlaying = false;
+
+        // Fungsi nyalain / matiin musik manual
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicBtn.innerHTML = "Putar Musik 🎵";
+            } else {
+                audio.play().catch(err => console.log("Gagal memutar audio otomatis:", err));
+                musicBtn.innerHTML = "Matikan Musik 🔇";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Fungsi pembantu agar musik otomatis jalan saat Jeje berinteraksi dengan tombol lain
+        function autoPlayMusic() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicBtn.innerHTML = "Matikan Musik 🔇";
+                }).catch(err => console.log(err));
+            }
+        }
+
         function getNewMessage() {
+            autoPlayMusic(); // Pemicu musik otomatis
             const msgBox = document.getElementById('boosterMessage');
-            
             msgBox.style.opacity = 0;
             
             setTimeout(() => {
@@ -203,7 +253,6 @@
             const heart = document.createElement('div');
             heart.classList.add('heart');
             heart.innerText = '❤️';
-            
             heart.style.left = Math.random() * 100 + 'vw';
             
             const duration = Math.random() * 1.5 + 1.5;
@@ -217,6 +266,7 @@
         }
 
         function createHearts() {
+            autoPlayMusic(); // Pemicu musik otomatis
             for (let i = 0; i < 20; i++) {
                 setTimeout(spawnHeart, i * 100);
             }
