@@ -13,8 +13,8 @@
             --accent-color: #ff8b94;
             --music-color: #baffc9;
             --music-text: #3d6a47;
-            --intro-bg: #1a1a1a; /* Warna background gelap untuk intro style kode */
-            --intro-text: #baffc9; /* Warna teks hijau neon style hacker */
+            --intro-bg: #fff0f1; /* Diubah jadi pink lembut agar lebih romantis */
+            --intro-text: #5c4d4d; /* Warna font yang hangat */
         }
 
         body, html {
@@ -24,17 +24,17 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             height: 100%;
-            overflow: hidden; /* Mencegah scroll saat intro berlangsung */
+            overflow: hidden; /* Mencegah scroll saat intro */
         }
 
-        /* --- STYLING Halaman Utama (Awalnya Disembunyikan) --- */
+        /* --- STYLING HALAMAN UTAMA --- */
         #main-content {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            opacity: 0; /* Mulai dari transparan */
-            transition: opacity 1.5s ease-in-out; /* Efek fade in halus */
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
             width: 100%;
         }
 
@@ -65,7 +65,7 @@
         .btn-music { background-color: var(--music-color); color: var(--music-text); font-size: 0.85rem; padding: 8px 15px; box-shadow: none; margin-bottom: 15px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-music:hover { background-color: #a3ebb4; }
 
-        /* --- STYLING INTRO EFFECT (Typing & Layar Hitam) --- */
+        /* --- STYLING INTRO EFFECT --- */
         #intro-overlay {
             position: fixed;
             top: 0;
@@ -76,23 +76,25 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999; /* Sangat tinggi agar menutupi semuanya */
-            font-family: 'Courier New', Courier, monospace; /* Font style kode */
-            color: var(--intro-text);
+            z-index: 9999;
             font-size: 1.2rem;
-            padding: 20px;
+            font-weight: 500;
+            padding: 30px;
             box-sizing: border-box;
+            text-align: center;
+            line-height: 1.6;
             transition: opacity 1s ease-out;
         }
 
         #typing-text::after {
-            content: '|'; /* Kursor ketik */
+            content: '❤️';
             animation: blink 0.7s infinite;
+            margin-left: 5px;
         }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* --- STYLING Animasi Hati (Floating & Burst) --- */
+        /* --- STYLING ANIMASI HATI --- */
         .heart {
             position: absolute;
             font-size: 24px;
@@ -102,15 +104,13 @@
             pointer-events: none;
         }
 
-        /* Animasi Hati Floating Up (tombol) */
         .heart-float {
             animation: floatUp 2.5s linear forwards;
         }
 
-        /* Animasi Hati Burst (Intro) */
         .heart-burst {
             animation: burstOpen 1s ease-out forwards;
-            z-index: 10000; /* Di atas intro overlay */
+            z-index: 10000;
         }
 
         @keyframes floatUp {
@@ -123,29 +123,22 @@
         @keyframes burstOpen {
             0% { transform: translate(-50%, -50%) scale(0); opacity: 1; top: 50%; left: 50%; }
             100% { 
-                /* Gerakan acak keluar dari tengah */
                 transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5); 
                 opacity: 0; 
                 top: 50%; left: 50%;
             }
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
 <body>
 
-    <!-- INTRO OVERLAY (Efek Kode/Ketik) -->
+    <!-- INTRO OVERLAY (Sapaan Lembut) -->
     <div id="intro-overlay">
         <div id="typing-text"></div>
     </div>
 
-    <!-- Halaman Utama (Disembunyikan saat intro) -->
+    <!-- HALAMAN UTAMA -->
     <div id="main-content">
-        <!-- Audio Element (Pastikan lagu.mp3 ada di repo) -->
         <audio id="bgMusic" src="lagu.mp3" loop></audio>
 
         <div class="container">
@@ -170,16 +163,14 @@
     </div>
 
     <script>
-        // --- KONFIGURASI INTRO TYPING ---
-        const textToType = "> Initialize happiness_protocol.exe...\n> Loading encouragement modules...\n> Checking stress levels...\n> [WARNING] Stress detected in Jeje.\n> Activating unconditional_love.vbs...\n> System Ready.\n> Membuka Special Space buat Jeje...";
-        const typingSpeed = 50; // milidetik per karakter
+        // --- TEKS INTRO SESUAI REQUEST ---
+        const textToType = "Halo Jeje... \nApa hari ini kamu baik-baik aja?\n\nSini, aku akan mengantar kamu\nke website ini... ✨";
+        const typingSpeed = 70; // Sedikit diperlambat agar lebih aesthetic dan terbaca santai
         const typingElement = document.getElementById('typing-text');
         let index = 0;
 
-        // Fungsi efek mengetik
         function typeEffect() {
             if (index < textToType.length) {
-                // Mengubah \n menjadi <br> agar ganti baris di HTML
                 if (textToType.charAt(index) === "\n") {
                     typingElement.innerHTML += "<br>";
                 } else {
@@ -188,31 +179,27 @@
                 index++;
                 setTimeout(typeEffect, typingSpeed);
             } else {
-                // Selesai mengetik, tunggu sebentar lalu ledakkan hati
-                setTimeout(triggerHeartBurst, 1000);
+                // Selesai ngetik, nunggu 1.5 detik agar Jeje sempat membaca kalimat terakhirnya
+                setTimeout(triggerHeartBurst, 1500);
             }
         }
 
-        // --- KONFIGURASI HEART BURST (LEDAKAN) ---
+        // --- LEDAKAN HATI ---
         function triggerHeartBurst() {
             const overlay = document.getElementById('intro-overlay');
             const mainContent = document.getElementById('main-content');
             
-            // Buat ledakan hati
             for (let i = 0; i < 50; i++) {
-                setTimeout(spawnBurstHeart, i * 15); // Staggered spawn
+                setTimeout(spawnBurstHeart, i * 12);
             }
 
-            // Hilangkan overlay intro
             setTimeout(() => {
                 overlay.style.opacity = '0';
-                // Tampilkan konten utama
                 mainContent.style.opacity = '1';
-                document.body.style.overflow = 'auto'; // Aktifkan scroll kembali
+                document.body.style.overflow = 'auto';
                 
-                // Hapus overlay dari DOM setelah fade out selesai
                 setTimeout(() => { overlay.remove(); }, 1000);
-            }, 500);
+            }, 400);
         }
 
         function spawnBurstHeart() {
@@ -220,24 +207,19 @@
             heart.classList.add('heart', 'heart-burst');
             heart.innerText = '❤️';
             
-            // Set variabel CSS untuk arah ledakan acak
-            const tx = (Math.random() - 0.5) * 300 + 'px'; // Gerak horizontal acak
-            const ty = (Math.random() - 0.5) * 300 + 'px'; // Gerak vertikal acak
+            const tx = (Math.random() - 0.5) * 350 + 'px';
+            const ty = (Math.random() - 0.5) * 350 + 'px';
             heart.style.setProperty('--tx', tx);
             heart.style.setProperty('--ty', ty);
             
-            // Ukuran acak
-            const size = Math.random() * 10 + 20 + 'px';
+            const size = Math.random() * 12 + 18 + 'px';
             heart.style.fontSize = size;
 
             document.body.appendChild(heart);
-
-            // Hapus elemen hati setelah animasi selesai
             setTimeout(() => { heart.remove(); }, 1000);
         }
 
-
-        // --- LOGIKA HALAMAN UTAMA (Sama seperti sebelumnya) ---
+        // --- LOGIKA UTAMA ---
         const messages = [
             "Nggak apa-apa kalau hari ini capek, besok kita coba lagi pelan-pelan ya Je. Kamu ga sendirian kok, ada aku di sini. 🧸",
             "Kurangin dulu kerutan di jidatnya Je, nanti cantiknya ilang! Yuk, tarik napas dalam-dalam... hembuskan... 💨",
@@ -258,7 +240,7 @@
                 audio.pause();
                 musicBtn.innerHTML = "Putar Musik 🎵";
             } else {
-                audio.play().catch(err => console.log("Perlu interaksi user untuk putar musik."));
+                audio.play().catch(err => console.log("Audio diblokir browser sebelum interaksi."));
                 musicBtn.innerHTML = "Matikan Musik 🔇";
             }
             isPlaying = !isPlaying;
@@ -269,7 +251,7 @@
                 audio.play().then(() => {
                     isPlaying = true;
                     musicBtn.innerHTML = "Matikan Musik 🔇";
-                }).catch(err => console.log("Autoplay diblokir browser sebelum klik."));
+                }).catch(err => console.log("Autoplay ditahan browser."));
             }
         }
 
@@ -289,7 +271,6 @@
             }
         }
 
-        // Hati floating dari tombol (bukan ledakan)
         function spawnFloatingHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart', 'heart-float');
@@ -308,9 +289,7 @@
             }
         }
 
-        // Mulai efek mengetik saat halaman dimuat
         window.onload = typeEffect;
-
     </script>
 </body>
 </html>
